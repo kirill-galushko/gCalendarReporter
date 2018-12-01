@@ -20,6 +20,7 @@ html,
 body {
     background-color: $background-color;
     height: 100%;
+    width: 100%;
     padding: 0;
 }
 
@@ -113,4 +114,23 @@ input {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-bottom: 15px;
+}
+
+.copy_button {
+    margin: 20px 0;
+}
+
+@media screen and (max-width: 420px) {
+    h1 {
+        font-size: 3.6rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .header {
+        flex-direction: column;
+    }
 }

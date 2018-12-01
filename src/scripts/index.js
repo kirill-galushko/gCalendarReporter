@@ -17,6 +17,11 @@ const SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
 const authorizeButton = document.getElementById('authorize_button');
 const signoutButton = document.getElementById('signout_button');
+const copyButton = document.getElementById('copy_button');
+
+const table = document.getElementById('content');
+
+let dataToCopy = '';
 
 document.onload = handleClientLoad();
 
@@ -45,6 +50,7 @@ function initClient() {
         updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
+        copyButton.onclick = handleCopyClick;
     }, function (error) {
         appendNewRows(JSON.stringify(error, null, 2));
     });
@@ -88,15 +94,30 @@ function updateSigninStatus(isSignedIn) {
 /**
  *  Sign in the user upon button click.
  */
-function handleAuthClick(event) {
+function handleAuthClick() {
     gapi.auth2.getAuthInstance().signIn();
 }
 
 /**
  *  Sign out the user upon button click.
  */
-function handleSignoutClick(event) {
+function handleSignoutClick() {
     gapi.auth2.getAuthInstance().signOut();
+}
+
+/**
+ *  Copy table data to clipboard upon button click.
+ */
+function handleCopyClick() {
+    const el = document.createElement('textarea');
+    el.value = dataToCopy;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
 }
 
 /**
@@ -106,7 +127,6 @@ function handleSignoutClick(event) {
  * @param {string[]} messages array for each td
  */
 function appendNewRows(...tds) {
-    const table = document.getElementById('content');
     const tr = document.createElement('tr');
     
     tds.forEach(td => {
@@ -142,6 +162,7 @@ function listUpcomingEvents(startDate, endDate) {
         'orderBy': 'startTime'
     }).then(response => {
         clearTable();
+        dataToCopy = '';
         const events = response.result.items;
 
         if (events.length > 0) {
@@ -156,6 +177,7 @@ function listUpcomingEvents(startDate, endDate) {
                     postfix += 'ов';
                 }
                 
+                dataToCopy += `${event.summary}:        ${duration} ${postfix}\n`;
                 appendNewRows(
                     event.summary, 
                     duration + ' ' + postfix, 
@@ -166,7 +188,7 @@ function listUpcomingEvents(startDate, endDate) {
                 ));
             }
         } else {
-            appendNewRows('No lessons found.');
+            appendNewRows('Уроки не найдены');
         }
     });
 }

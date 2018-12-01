@@ -9,28 +9,30 @@
 <body>
     <div class="header">
         <h1>gCalendarReporter</h1>
-        <button id="authorize_button" 
-                class="button">
+        <button id="authorize_button">
             Авторизация
         </button>
 
-        <button id="signout_button" 
-                class="button" 
+        <button id="signout_button"
                 style="display: none;">
             Выход
         </button>
     </div>
 
     <div>
-        <label for="datepicker">Выбрете временной промежуток:</label>
+        <label for="datepicker">Выберите временной промежуток:</label>
         <input type="text" id="datepicker"/>
     </div>
+
+    <button id="copy_button" class="copy_button">
+        Копировать
+    </button>
 
     <table>
         <thead>
           <tr>
             <th>С кем</th>
-            <th>Продолжительность</th>
+            <th>Сколько</th>
             <th>Когда</th>
           </tr>
         </thead>
