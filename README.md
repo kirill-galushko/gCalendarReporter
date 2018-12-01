@@ -1,3 +1,7 @@
-# 📆 gCalendarReporter 📆
+# 📆 gCalendarReporter
 
-A lightweight report creator based on Google Calendar
+A lightweight table creator based on Google Calendar events. Implemented to create lesson reports.
+
+- Webpack
+- Sass
+- Vanilla JS
